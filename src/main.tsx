@@ -6,7 +6,7 @@ import { BrowserRouter } from "react-router"
 import { store } from "./app/store"
 
 createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
+  <BrowserRouter basename="/todoListRTK">
     <Provider store={store}>
       <App />
     </Provider>
