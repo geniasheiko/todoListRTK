@@ -13,7 +13,7 @@ import LinearProgress from "@mui/material/LinearProgress"
 import { useLogoutMutation } from "@/features/auth/api/authApi"
 import { ResultCode } from "@/common/enums"
 import { AUTH_TOKEN } from "@/common/constants"
-import { clearDataAC } from "@/common/actions"
+import { baseApi } from "@/app/baseApi"
 
 export const Header = () => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn)
@@ -32,11 +32,13 @@ export const Header = () => {
 
   const logoutHandler = () => {
     logout().then((res:{ data?: { resultCode: ResultCode } }) => {
-      if (res.data?.resultCode === ResultCode.Success) {
-        dispatch(setIsLoggedInAC({ isLoggedIn: false }))
+      if (res.data?.resultCode === ResultCode.Success) {           //обрабатывается результат logout:
+        dispatch(setIsLoggedInAC({ isLoggedIn: false }))          // при успешном запросе удаляеся токен и обновляется состояние isLoggedIn;
         localStorage.removeItem(AUTH_TOKEN)
-        dispatch(clearDataAC())
       }
+    })
+    .then(() => {
+      dispatch(baseApi.util.invalidateTags(["Todolist", "Task"])) //инвалидируются теги Todolist и Task
     })
   }
 

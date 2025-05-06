@@ -2,10 +2,15 @@ import Grid from "@mui/material/Grid2"
 import Paper from "@mui/material/Paper"
 import { TodolistItem } from "./TodolistItem/TodolistItem"
 import {  useGetTodolistsQuery } from "../../api/todolistsApi"
+import Skeleton from "@mui/material/Skeleton"
 
 export const Todolists = () => {
   
- const { data: todolists, refetch } = useGetTodolistsQuery()
+ const { data: todolists, refetch, isLoading } = useGetTodolistsQuery()
+
+ if (isLoading) {
+  return <Skeleton />
+}
 
   return (
     <>
